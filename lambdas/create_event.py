@@ -1,24 +1,11 @@
-import json
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+from models.models import Event
+from lambda_decorators import json_http_resp, load_json_body
 
-
+@json_http_resp
+@load_json_body
 def handler(event, context):
-    body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
-    }
-
-    response = {
-        "statusCode": 200,
-        "body": json.dumps(body)
-    }
-
-    return response
-
-    # Use this code if you don't use the http event with the LAMBDA-PROXY
-    # integration
-    """
-    return {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "event": event
-    }
-    """
+    event = Event(**event['body'])
+    resp = create_item(event.dict())
+    return {"message": "Event created"}
