@@ -28,5 +28,4 @@ def get_items(pk, sk):
     response = table.query(
         KeyConditionExpression=Key("pk").eq(pk) & Key("sk").begins_with(sk)
     )
-
     return {"Items": response["Items"], "Count": response["Count"]}
